@@ -8,6 +8,7 @@ using System.Collections;
 
 public class ClientTextStrings
 {
-    public const string runninggame = "RUNNING GAME";
-    public const string runningminigame = "MINI GAME";
+    public const string runninggame = "Watch the digiboard!";
+    public const string runningminigame = "";
+    public const string empty = "";
 }

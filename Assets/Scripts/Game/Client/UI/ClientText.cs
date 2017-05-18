@@ -18,6 +18,7 @@ public class ClientText : NetworkBehaviour
     {
         _gameStatesScript.OnGameStarted += StartGameText;
         _gameStatesScript.OnMiniGameStarted += StartMiniGameText;
+        _gameStatesScript.OnMiniGameEnd += WatchDigiBoardText;
     }
 
    void StartGameText()
@@ -29,6 +30,12 @@ public class ClientText : NetworkBehaviour
     void StartMiniGameText()
     {
         _newText = ClientTextStrings.runningminigame;
+        ChangeTextToRunningGame(_newText);
+    }
+
+    void WatchDigiBoardText()
+    {
+        _newText = ClientTextStrings.runninggame;
         ChangeTextToRunningGame(_newText);
     }
 

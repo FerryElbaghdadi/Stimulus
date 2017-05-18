@@ -15,7 +15,7 @@ using System;
 public class ChangeHostText : MonoBehaviour
 {
 
-	[SerializeField] private AddStudent _addStudentScript;
+	[SerializeField] private StudentAmount _studentAmountScript;
 
     [SerializeField] private Text _hostPleaseWaitText;
     [SerializeField] private Text _waitingText;
@@ -30,7 +30,7 @@ public class ChangeHostText : MonoBehaviour
 
     void ChangeToReadyText()
     {
-        if (_addStudentScript.GetStudents >= _studentsNeededToStart)
+        if (_studentAmountScript.GetStudents >= _studentsNeededToStart)
         {
             _hostPleaseWaitText.text = HostLobbyStrings.readytogo;
             _waitingText.text = "";

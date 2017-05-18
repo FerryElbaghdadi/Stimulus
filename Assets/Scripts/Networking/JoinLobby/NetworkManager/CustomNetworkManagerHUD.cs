@@ -29,6 +29,7 @@ namespace UnityEngine.Networking
 
         public delegate void ButtonEventHandler();
         public ButtonEventHandler OnClientConnect; // We will be needing this delegate to let other scripts know.
+        public ButtonEventHandler OnClientConnecting; // Send a message whenever the client is connecting.
         public ButtonEventHandler OnClientDisconnect; // We will be needing this delegate to let other scripts know.
 
         [SerializeField] private NetworkManager _networkManager;  // We need to let the NetworkManager know what happens in here.
@@ -39,6 +40,7 @@ namespace UnityEngine.Networking
         private bool _runningHost; // We need to know whether the host is running.
         private bool _runningClient; // Or if the client has joined the host.
 
+        private string ipadress;
 
         void Awake()
         {
@@ -59,6 +61,9 @@ namespace UnityEngine.Networking
             if (_runningClient)
                 JoinGame();
 
+       //     ipadress = Network.player.ipAddress;
+       //     _networkManager.networkAddress = ipadress;
+
 
             /*
              * Network components need to work in an update.
@@ -75,6 +80,7 @@ namespace UnityEngine.Networking
                 {
                     _networkManager.StartHost();
                 }
+                    
 
                 // If our client hasn't connected to the server, and the server isn't active...
                 // And no connections have been made yet, start a host!
@@ -87,14 +93,23 @@ namespace UnityEngine.Networking
             {
                 if (_noConnection)
                 {
-                    if (_networkAdressField.text == CodeStrings.stimulus)
-                    _networkManager.networkAddress = CodeStrings.localhost;
 
-                    
-                    if (_networkManager.networkAddress != null)
+                    ipadress = Network.player.ipAddress;
+                    _networkManager.networkAddress = ipadress;
+
+                    if (_networkAdressField.text == CodeStrings.stimulus || _networkAdressField.text == "192.168.1.101" || _networkAdressField.text == "192.168.1.102")
+                        _networkManager.networkAddress = "192.168.1.101";
+
+                    if (_networkManager.networkAddress == ipadress || _networkManager.networkAddress == "192.168.1.101" ||  _networkManager.networkAddress == "192.168.1.102")
                     _networkManager.StartClient();
                     else
                     Debug.LogError("NO ADDRESS SET");
+
+                    if (NetworkClient.active && !ClientScene.ready)
+                    {
+                        if (OnClientConnecting != null)
+                            OnClientConnecting();
+                    }
 
                     /*
                      * If the user does not have a connection to a server yet, it can join the server.

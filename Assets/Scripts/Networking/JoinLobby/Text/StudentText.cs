@@ -18,7 +18,7 @@ using System.Collections;
     {
        
         [SerializeField] private GameStates _gameStatesScript;
-        [SerializeField] private AddStudent _amountOfStudentsScript;
+        [SerializeField] private StudentAmount _amountOfStudentsScript;
         [SerializeField] private Text _numberOfStudentsText;
 
         void Start()

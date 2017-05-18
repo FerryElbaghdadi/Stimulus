@@ -4,24 +4,55 @@ using System.Collections;
 
 public class StartGame : NetworkBehaviour
 {
+
+    [SerializeField] private StudentAmount _studentAmountScript;
+    [SerializeField] private FadeToGame _fadeToGameScript;
+
+    private int _studentsNeededToStart = 1;
+
     public delegate void StartGameEventHandler();
+    public StartGameEventHandler OnGameEnter;
     public StartGameEventHandler OnGameStart;
+
+    private bool _startedGame;
 
 
     void Start()
     {
        CheckIsLocal();
+
+        _fadeToGameScript.OnFadeOut += CmdStartGame;
     }
 
     void Update()
     {
- 
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-            if (OnGameStart != null)
-                OnGameStart();
-            }
+        CmdEnterGame();
+    }
 
+    [Command]
+    void CmdEnterGame()
+    {
+        if (_studentAmountScript.GetStudents >= _studentsNeededToStart)
+        {
+            if (!_startedGame)
+            {
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    if (OnGameEnter != null)
+                        OnGameEnter();
+
+                    _startedGame = true;
+                }
+            }
+            
+        }
+    }
+
+    [Command]
+    void CmdStartGame()
+    {
+        if (OnGameStart != null)
+            OnGameStart();
     }
 
 

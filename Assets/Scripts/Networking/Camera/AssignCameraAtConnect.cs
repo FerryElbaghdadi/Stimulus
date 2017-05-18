@@ -2,7 +2,8 @@
 using UnityEngine.Networking;
 using System.Collections;
 
-public class AssignCameraAtConnect : NetworkBehaviour {
+public class AssignCameraAtConnect : NetworkBehaviour
+{
 
 	[SerializeField] private Camera _hostCamera;
     [SerializeField] private Camera _clientCamera;
