@@ -7,6 +7,7 @@
 Interesting code snippets:
 
 [CustomNetworkManagerHUD.cs](https://github.com/FerryElbaghdadi/Stimulus/blob/master/Assets/Scripts/Networking/JoinLobby/NetworkManager/CustomNetworkManagerHUD.cs)
+
 [GameStates.cs](https://github.com/FerryElbaghdadi/Stimulus/blob/master/Assets/Scripts/Game/States/GameStates.cs)
 
 
