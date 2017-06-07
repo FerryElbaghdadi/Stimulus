@@ -1,6 +1,12 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Networking;
 using System.Collections;
+
+/*
+ * This script takes care of all different states of the game.
+ * With this other scripts are able to check the game's current state.
+ */
+
 
 public class GameStates : NetworkBehaviour
 {
@@ -20,6 +26,7 @@ public class GameStates : NetworkBehaviour
     [SyncVar] private bool _runningMiniGame;
 
     private int _miniGame;
+    private int _addValue = 1;
 
     public bool GetGameStartBool
     {
@@ -51,7 +58,7 @@ public class GameStates : NetworkBehaviour
     public GameStateEventHandler OnSceneThreeEnd;
 
 
-    void Start()
+    private void Start()
     {
         _startGameScript.OnGameStart += StartGame;
         _runningMiniGameScript.OnMiniGameStart += RunMiniGame;
@@ -60,6 +67,10 @@ public class GameStates : NetworkBehaviour
         _fadeToSceneTwoScript.OnFadeOut += StartSceneTwo;
         _fadeToSceneThreeScript.OnFadeOut += StartSceneThree;
         _fadeToFinalSceneScript.OnFadeOut += StartFinalScene;
+        
+       /*
+        * All functions that will be called by the delegates.
+        */
 
     }
 
@@ -71,47 +82,47 @@ public class GameStates : NetworkBehaviour
         _gameStarted = true;
         _runningGame = true;
         _preGame = false;
+        
+        /*
+         * Once we start the game, we leave our _preGame state and enter our _gameStarted state.
+         * _runningGame will keep on running until we leave our session.
+         */
     }
 
     void RunMiniGame()
     {
-        
-
         if (!_runningMiniGame)
         {
-            _miniGame += 1;
+            _miniGame += _addValue;
             _runningMiniGame = true;
         }
         
-
-        if (_miniGame == 1)
+        switch (_miniGame)
         {
-            if (OnMiniGameOneStarted != null)
+            case 1:
+                if (OnMiniGameOneStarted != null)
                 OnMiniGameOneStarted();
-        }
-
-        else if (_miniGame == 2)
-        {
-            if (OnMiniGameTwoStarted != null)
+                break;
+            
+            case 2:
+                if (OnMiniGameTwoStarted != null)
                 OnMiniGameTwoStarted();
-        }
-
-        else if (_miniGame == 3)
-        {
-            if (OnMiniGameThreeStarted != null)
+                break;
+            
+            case 3:
+                if (OnMiniGameThreeStarted != null)
                 OnMiniGameThreeStarted();
-        }
-
-        else if (_miniGame == 4)
-        {
-            if (OnMiniGameFourStarted != null)
+                break;
+            
+            case 4:
+                if (OnMiniGameFourStarted != null)
                 OnMiniGameFourStarted();
+                break;
         }
 
         if (OnMiniGameStarted != null)
             OnMiniGameStarted();
-
-        
+  
         _runningGame = false;
     }
 
@@ -119,29 +130,28 @@ public class GameStates : NetworkBehaviour
     {
         if (OnMiniGameEnd != null)
             OnMiniGameEnd();
-
-        if (_miniGame == 1)
+            
+        switch (_miniGame)
         {
-            if (OnMiniGameOneEnd != null)
+            case 1:
+                if (OnMiniGameOneEnd != null)
                 OnMiniGameOneEnd();
-        }
-
-        else if (_miniGame == 2)
-        {
-            if (OnMiniGameTwoEnd != null)
+                break;
+            
+            case 2:
+                if (OnMiniGameTwoEnd != null)
                 OnMiniGameTwoEnd();
-        }
-
-        else if (_miniGame == 3)
-        {
-            if (OnMiniGameThreeEnd != null)
+                break;
+            
+            case 3:
+                if (OnMiniGameThreeEnd != null)
                 OnMiniGameThreeEnd();
-        }
-
-        else if (_miniGame == 4)
-        {
-            if (OnMiniGameFourEnd != null)
+                break;
+            
+            case 4:
+                if (OnMiniGameFourEnd != null)
                 OnMiniGameFourEnd();
+                break;
         }
 
         _runningGame = true;
